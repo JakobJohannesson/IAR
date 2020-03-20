@@ -20,8 +20,6 @@ for(i in 1:33){
 }
 year[11,]<-r12[10,]
 year<-year[-1,]
-
-
 cagr<-(year$revenues[10]/year$revenues[1])^(1/length(year$year))-1
 
 # Visualiserar
@@ -40,7 +38,7 @@ ggplot(data =  skr, aes(x=year))+
            colour = "black", aes(y=skr$revenue)) + theme_bw()+ labs(
              x = "År",
              y = "Omsättning\n MKR",
-             title = "IAR omsättning och rörelsemarginal mellan 2010 och 2019",
+             title = "IAR systems omsättning och rörelsemarginal mellan 2010 och 2019",
              caption = "Källa: Börsdata"
            )+ 
   theme(
@@ -69,46 +67,3 @@ ggplot(data =  skr, aes(x=year))+
   geom_text(aes(x = year, y = revenue,
                 label=round(skr$ebit/skr$revenue, digits=3)*100),
             vjust=1.5, color="white", size=3.5)
-
-
-
-
-#### DCF #### 
-
-library(stringr)
-library(readxl)
-library(dplyr)
-library(lubridate)
-
-
-namn<-"data/novotek.xlsx" # namn på excel filen
-
-
-
-
-
-#### Kurs utveckling - veckodata ####
-
-figur<-function(namn){
-  library(xts)
-  kurs<- read_excel(namn, 
-                    sheet = "PriceWeek")
-  kurs<-kurs[-1,]
-  kurs<-data.frame(kurs$Date,kurs$Openprice)
-  x<-kurs
-  rownames(kurs)<-kurs$kurs.Date
-  kurs<-as.matrix(kurs)
-  kurs<-kurs[,-1]
-  kurs<-as.matrix(kurs)
-  kurs<-as.data.frame(kurs)
-  rownames(kurs)<-x$kurs.Date
-  colnames(kurs)<-c("Price")
-  kurs$Price<-as.numeric(as.character(kurs$Price))
-  MTG_Kurs <- as.xts(kurs, descr='my new xts object')
-  figur<-plot.xts(MTG_Kurs, main = namn)
-  return(figur)
-}
-figur(namn=namn, skr = skr)
-
-
-
