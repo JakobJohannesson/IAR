@@ -20,3 +20,11 @@ kvartal<-fetch_quarter(106,key = key)
 
 ```
 
+```{r echo=FALSE, message=FALSE}
+library(magick)
+
+y<-"rev-ebit-cagr.png"
+image_read(path = y)
+```
+
+
